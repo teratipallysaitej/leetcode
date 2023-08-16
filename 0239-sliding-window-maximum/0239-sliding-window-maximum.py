@@ -1,3 +1,5 @@
+from collections import deque
+
 class Solution(object):
     def maxSlidingWindow(self, nums, k):
         """
@@ -5,16 +7,26 @@ class Solution(object):
         :type k: int
         :rtype: List[int]
         """
+        if k == 1:
+            return nums
+
+        mq = deque()
         res = []
-        arr = []
+
         for i in range(len(nums)):
-            heapq.heappush(arr,[-1*nums[i],i])
-            if i>=k-1:
-                while True:
-                    z = heapq.heappop(arr)
-                    if i-k+1 <= z[1] <= i:
-                        res.append(-1*z[0])
-                        heapq.heappush(arr,z)
-                        break
-                
+            # Remove elements outside the current window
+            while mq and mq[0] < i - k + 1:
+                mq.popleft()
+
+            # Remove elements that are less than the current element
+            while mq and nums[mq[-1]] < nums[i]:
+                mq.pop()
+
+            # Add the current index to the queue
+            mq.append(i)
+
+            # If the current index is in the window, append the maximum element to the result
+            if i >= k - 1:
+                res.append(nums[mq[0]])
+
         return res
