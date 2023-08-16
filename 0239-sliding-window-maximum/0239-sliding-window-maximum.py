@@ -11,13 +11,10 @@ class Solution(object):
             heapq.heappush(arr,[-1*nums[i],i])
             if i>=k-1:
                 while True:
-                    if arr:
-                        z = heapq.heappop(arr)
-                        if i-k+1 <= z[1] <= i:
-                            res.append(-1*z[0])
-                            heapq.heappush(arr,z)
-                            break
-                    else:
+                    z = heapq.heappop(arr)
+                    if i-k+1 <= z[1] <= i:
+                        res.append(-1*z[0])
+                        heapq.heappush(arr,z)
                         break
                 
         return res
