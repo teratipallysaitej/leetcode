@@ -1,8 +1,8 @@
-class TrieNode {
-    constructor(){
-        this.node = {}
-        this.end = false
-    }
+class TrieNode{
+  constructor() {
+    this.node = {}
+    this.isend = false
+  }
 }
 
 var Trie = function() {
@@ -16,17 +16,17 @@ var Trie = function() {
 Trie.prototype.insert = function(word) {
     curr = this.head
     for(let i = 0;i<word.length;i++){
-        if(!(word[i] in curr.node)){
-            curr.node[word[i]] = new TrieNode()
-            curr = curr.node[word[i]]
-        }
-        else{
-            curr = curr.node[word[i]]
-        }
-
+      if(word[i] in curr.node){
+        
+        curr = curr.node[word[i]]
+      }else{
+        curr.node[word[i]] = new TrieNode()
+        curr = curr.node[word[i]]
+      }
     }
-    curr.end = true
-};
+    curr.isend = true
+    
+  };
 
 /** 
  * @param {string} word
@@ -34,32 +34,29 @@ Trie.prototype.insert = function(word) {
  */
 Trie.prototype.search = function(word) {
     curr = this.head
-    for(let i =0;i<word.length;i++){
-        if(!(word[i] in curr.node)){
-            return false
-        }
-        else{
-            curr = curr.node[word[i]]
-        }
-    }    
-    return curr.end
+    for(let i = 0;i<word.length;i++){
+      if(!(word[i] in curr.node)){
+        return false
+      }else{
+        curr = curr.node[word[i]]
+      }
+    }
+    return curr.isend
 };
 
 /** 
  * @param {string} prefix
  * @return {boolean}
  */
-Trie.prototype.startsWith = function(prefix) {
+Trie.prototype.startsWith = function(word) {
     curr = this.head
-    for(let i = 0;i<prefix.length;i++){
-
-        if(!(prefix[i] in curr.node)){
-            return false
-        }
-        else{
-            curr = curr.node[prefix[i]]
-        }
-    }    
+    for(let i = 0;i<word.length;i++){
+      if(!(word[i] in curr.node)){
+        return false
+      }else{
+        curr = curr.node[word[i]]
+      }
+    }
     return true
 };
 
