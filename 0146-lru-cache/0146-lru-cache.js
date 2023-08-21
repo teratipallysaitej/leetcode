@@ -1,29 +1,43 @@
+/**
+ * @param {number} capacity
+ */
 var LRUCache = function(capacity) {
-    this.capacity = capacity;
-    this.mp = new Map(); // Use a Map object
+    this.cache = new Map()
+    this.capacity = capacity
 };
 
+/** 
+ * @param {number} key
+ * @return {number}
+ */
 LRUCache.prototype.get = function(key) {
-    if (!this.mp.has(key)) {
-        return -1;
+    if(this.cache.has(key)){
+        let val = this.cache.get(key)
+        this.cache.delete(key)
+        this.cache.set(key, val)
+        return val
     }
-    var val = this.mp.get(key); // Declare val with var
-    this.mp.delete(key);
-    this.mp.set(key, val);
-    return val;
+    return -1
 };
 
+/** 
+ * @param {number} key 
+ * @param {number} value
+ * @return {void}
+ */
 LRUCache.prototype.put = function(key, value) {
-    if (this.mp.has(key)) {
-        this.mp.delete(key);
+    if(this.cache.has(key)){
+        this.cache.delete(key)
     }
-    this.mp.set(key, value);
-    if (this.mp.size > this.capacity) { // Use size property of Map
-        this.mp.delete(this.mp.keys().next().value); // Delete the first key
+    this.cache.set(key,value)
+    if(this.cache.size > this.capacity){
+        this.cache.delete(this.cache.keys().next().value)
     }
 };
 
-// Usage example:
-// var obj = new LRUCache(capacity);
-// var param_1 = obj.get(key);
-// obj.put(key, value);
+/** 
+ * Your LRUCache object will be instantiated and called as such:
+ * var obj = new LRUCache(capacity)
+ * var param_1 = obj.get(key)
+ * obj.put(key,value)
+ */
