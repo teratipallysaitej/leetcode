@@ -8,5 +8,6 @@ class Solution:
             for j in range(i+1,n):
                 if pairs[i][1] < pairs[j][0]:
                     dp[i] = max(dp[i],dp[j]+1)
-        return max(dp)
+                    mn = max(mn,dp[i])
+        return mn
 
