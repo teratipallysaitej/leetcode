@@ -1,7 +1,6 @@
 class Solution:
     def minExtraChar(self, s: str, dictionary: List[str]) -> int:
         n = len(s)
-        print(s)
         dp = [1]*(len(s)+2)
         dp[0] = 0
         for i in range(n+1):
