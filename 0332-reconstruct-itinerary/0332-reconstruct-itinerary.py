@@ -2,7 +2,6 @@ from collections import defaultdict
 class Solution:
     def findItinerary(self, tickets: List[List[str]]) -> List[str]:
         d = defaultdict(list)
-        hel = set()
         # for a,d1 in tickets:
         #     hel.add(a)
         #     hel.add(d1)
@@ -12,7 +11,6 @@ class Solution:
             d[a].append(d1)
         for a in d:
             d[a].sort()
-        res = []
         # count = len(hel)
         def helper(node, it):
             global res
@@ -22,7 +20,6 @@ class Solution:
             #         z -= 1
 
             if len(it) == len(tickets) + 1:
-                res = it[:]
                 return True
             if node not in d:
                 return False
