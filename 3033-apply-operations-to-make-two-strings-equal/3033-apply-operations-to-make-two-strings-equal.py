@@ -1,37 +1,21 @@
-from functools import lru_cache
 class Solution:
-    def minOperations(self, s1: str, s2: str, x: int) -> int:
-        n = len(s1)
-        inf = 10**20
-        @lru_cache(maxsize=None)
-        def helper(ind: int,flip: int,extra: int) -> int:
-            if ind == n:
-                if extra > 0 or flip:
-                    return inf
-                else:
-                    return 0
-            b1 = int(s1[ind])
-            b2 = int(s2[ind])
-            if flip:
-                b1 = 1 - b1
-            
-            ans = inf
-            if b1 == b2:
-                ans = min(ans,helper(ind+1,False,extra))
-                # return ans
-            else:
-                ans = min(ans, helper(ind+1,True,extra)+1)
-                ans = min(ans, helper(ind+1,False,extra+1)+x)
-                if extra > 0:
-                    ans = min(ans, helper(ind+1,False,extra-1))
-            return ans
-        z = helper(0,False,0)
-        if z == inf:
+    def minOperations(self, s1, s2, x):
+        diffs = [i for i in range(len(s1)) if s1[i] != s2[i]]
+
+        if len(diffs) % 2 == 1:
             return -1
-        return z
-
-
-
-
+        if len(diffs) == 0:
+            return 0
         
+        dp_i_plus_two = 0
+        dp_i_plus_one = x / 2
+
+        for idx in reversed(range(len(diffs) - 1)):
+            dp_i = min(
+                    dp_i_plus_one + x / 2,
+                    dp_i_plus_two + diffs[idx + 1] - diffs[idx]
+                )
+            dp_i_plus_two = dp_i_plus_one
+            dp_i_plus_one = dp_i
         
+        return int(dp_i)
